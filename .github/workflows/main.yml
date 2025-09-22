@@ -19,7 +19,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '8.0.100'
 
       - name: Restore dependencies
         run: dotnet restore
@@ -37,7 +37,7 @@ jobs:
         uses: nurNedimOkatan/Deploy-to-IIS@v3
         with:
           website-name: 'Default Web Site/Portal_CICD'
-          msdeploy-service-url: '20.205.99.114:8172'
+          msdeploy-service-url: 'https://20.205.99.114:8172'
           msdeploy-username: '${{ secrets.AZURE_VM_USERNAME }}'
           msdeploy-password: '${{ secrets.AZURE_VM_PASSWORD }}'
           msdeploy-skipextrafilesonserver: false
