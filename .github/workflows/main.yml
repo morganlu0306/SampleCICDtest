@@ -1,0 +1,43 @@
+name: Sample CICD Test
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-and-deploy:
+    name: Build, Test, and Deploy to IIS
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+      - name: Publish
+        run: dotnet publish -c Release -o .\publish
+
+      - name: Deploy to IIS
+        uses: nurNedimOkatan/Deploy-to-IIS@v3
+        with:
+          website-name: 'Default Web Site/Portal_CICD'
+          msdeploy-service-url: '20.205.99.114'
+          msdeploy-username: '${{ secrets.AZURE_VM_USERNAME }}'
+          msdeploy-password: '${{ secrets.AZURE_VM_PASSWORD }}'
+          msdeploy-skipextrafilesonserver: false
+          source-path: '.\publish'
