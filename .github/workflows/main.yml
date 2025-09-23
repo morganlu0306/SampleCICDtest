@@ -34,11 +34,11 @@ jobs:
         run: dotnet publish -c Release -o .\publish
 
       - name: Deploy to IIS
-        uses: nurNedimOkatan/Deploy-to-IIS@v3
+        uses: ChristopheLav/iis-deploy@v1
         with:
           website-name: '"Default Web Site/Portal_CICD"'
-          msdeploy-service-url: '"https://20.205.99.114:8172/msdeploy.axd?site=Default Web Site/Portal_CICD"'
+          msdeploy-service-url: '"https://20.205.99.114:8172/msdeploy.axd"'
           msdeploy-username: '${{ secrets.AZURE_VM_USERNAME }}'
           msdeploy-password: '${{ secrets.AZURE_VM_PASSWORD }}'
-          msdeploy-skipextrafilesonserver: false
           source-path: '.\publish'
+          skip-extra-files: false
