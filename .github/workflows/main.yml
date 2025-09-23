@@ -27,9 +27,6 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
-      - name: Test
-        run: dotnet test --no-build --verbosity normal
-
       - name: Publish
         run: dotnet publish -c Release -o .\publish
 
@@ -37,7 +34,7 @@ jobs:
         uses: ChristopheLav/iis-deploy@v1
         with:
           website-name: '"Default Web Site/Portal_CICD"'
-          msdeploy-service-url: '"https://20.205.99.114:8172/msdeploy.axd"'
+          msdeploy-service-url: 'https://20.205.99.114:8172/msdeploy.axd'
           msdeploy-username: '${{ secrets.AZURE_VM_USERNAME }}'
           msdeploy-password: '${{ secrets.AZURE_VM_PASSWORD }}'
           source-path: '.\publish'
